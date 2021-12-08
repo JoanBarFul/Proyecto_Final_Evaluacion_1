@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
 public class Player_Controller : MonoBehaviour
 {
 
@@ -15,9 +16,10 @@ public class Player_Controller : MonoBehaviour
     public int medals = 0;
     private float speed = 10f;
     private float turnSpeed = 30f;
-    private AudioSource playerAudio;
-    public AudioClip winClip;
+    private AudioSource audioPlayer;
+    public AudioClip medalClip;
     public AudioClip gameOverClip;
+    public AudioSource audioCamera;
 
 
 
@@ -28,7 +30,8 @@ public class Player_Controller : MonoBehaviour
         transform.position = new Vector3(0, 100, 0);
         medals = 0;
         winText.gameObject.SetActive(false);
-        playerAudio = GetComponent<AudioSource>();
+        audioPlayer = GetComponent<AudioSource>();
+        audioCamera = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 
     }
 
@@ -71,7 +74,8 @@ public class Player_Controller : MonoBehaviour
                 gameOver = true;
                 winText.text = $"WIN";
                 winText.gameObject.SetActive(true);
-                playerAudio.PlayOneShot(winClip, 1);
+                audioPlayer.PlayOneShot(medalClip, 1);
+              
             }
 
         }
@@ -94,7 +98,8 @@ public class Player_Controller : MonoBehaviour
                 winText.text = $"GAME OVER";
                 winText.gameObject.SetActive(true);
                 gameOver = true;
-                playerAudio.PlayOneShot(gameOverClip, 1);
+                audioPlayer.PlayOneShot(gameOverClip, 1);
+                audioCamera.Stop();
             }
         }
         }
