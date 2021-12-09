@@ -1129,7 +1129,6 @@ MonoBehaviour:
   winText: {fileID: 610311078}
   medals: 0
   medalClip: {fileID: 8300000, guid: 5692ae490d5ce9b46a3b5e83a7b7c806, type: 3}
-  gameOverClip: {fileID: 8300000, guid: c4c18a4c0578c5e4ba20a6edeba31f6e, type: 3}
   audioCamera: {fileID: 0}
 --- !u!65 &1908713136
 BoxCollider:

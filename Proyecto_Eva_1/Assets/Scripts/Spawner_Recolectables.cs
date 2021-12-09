@@ -13,9 +13,10 @@ public class Spawner_Recolectables : MonoBehaviour
     public Player_Controller playerControllerScript;
     private float startSpawn = 2f;
     private float repeatSpawn = 5f;
-    // Start is called before the first frame update
+   
     void Start()
     {
+        //Hace aparecer al pricipio de la partida 10 medallas aleatoriamente dentro del mapa.
         SpawnerR();
         SpawnerR();
         SpawnerR();
@@ -27,16 +28,14 @@ public class Spawner_Recolectables : MonoBehaviour
         SpawnerR();
         SpawnerR();
 
+        //Cada 5 segundos aparece un obstaculo nuevo
         InvokeRepeating("SpawnerObstacles", startSpawn, repeatSpawn);
+
+        //Busca en el script de "Player_Controller".
         playerControllerScript = FindObjectOfType<Player_Controller>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //Instancia una medalla en una posición aleatoria.
     public void SpawnerR()
     {
         randX = Random.Range(150, -151);
@@ -46,6 +45,7 @@ public class Spawner_Recolectables : MonoBehaviour
         Instantiate(medallaPrefab, randPos, medallaPrefab.transform.rotation);
     }
 
+    //Instancia un obstaculo en una posición aleatoria.
     public void SpawnerObstacles()
     {
         if (!playerControllerScript.gameOver)
