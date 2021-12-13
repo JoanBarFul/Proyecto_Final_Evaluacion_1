@@ -14,7 +14,7 @@ public class Player_Controller : MonoBehaviour
     public TextMeshProUGUI CounterText;
     public TextMeshProUGUI winText;
     public int medals = 0;
-    private float speed = 10f;
+    private float speed = 13f;
     private float turnSpeed = 30f;
     private AudioSource audioPlayer;
     public AudioClip medalClip;
@@ -67,7 +67,6 @@ public class Player_Controller : MonoBehaviour
             if (transform.position.y <= 0)
             { transform.position = new Vector3(transform.position.x, 0, transform.position.z); }
 
-            // Por el tamaño de mi "Player" he ajustado el límite con el borde del mapa, comprobando que no se salga de este en las equinas, porque 200 se me quedaba pequeño.
             if (transform.position.z >= 350)
             { transform.position = new Vector3(transform.position.x, transform.position.y, 350); }
             if (transform.position.z <= -100)
@@ -89,7 +88,6 @@ public class Player_Controller : MonoBehaviour
                 winText.text = $"WIN";
                 winText.gameObject.SetActive(true);
                 audioCamera.Stop();
-                //Insertar clip victoria.
                 gameOver = true;
             }
 
@@ -126,11 +124,7 @@ public class Player_Controller : MonoBehaviour
                 winText.gameObject.SetActive(true);
                 
                 //Se para la música.
-                
                 audioCamera.Stop();
-
-                //Aparece una explosion y hace el ruido es esta.
-                //Insertar Explosion
 
                 //Se termina el juego.
                 gameOver = true;

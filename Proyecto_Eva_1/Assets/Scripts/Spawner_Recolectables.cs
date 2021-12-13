@@ -38,9 +38,9 @@ public class Spawner_Recolectables : MonoBehaviour
     //Instancia una medalla en una posición aleatoria.
     public void SpawnerR()
     {
-        randX = Random.Range(150, -151);
+        randX = Random.Range(125, -151);
         randY = Random.Range(0, 181);
-        randZ = Random.Range(-180, 300);
+        randZ = Random.Range(-95, 250);
         randPos = new Vector3(randX, randY, randZ);
         Instantiate(medallaPrefab, randPos, medallaPrefab.transform.rotation);
     }
@@ -52,7 +52,7 @@ public class Spawner_Recolectables : MonoBehaviour
         {
             randX = Random.Range(150, -151);
             randY = Random.Range(0, 181);
-            randZ = Random.Range(-180, 300);
+            randZ = Random.Range(-95, 251);
             randPos = new Vector3(randX, randY, randZ);
             Instantiate(bombaPrefab, randPos, bombaPrefab.transform.rotation);
         }

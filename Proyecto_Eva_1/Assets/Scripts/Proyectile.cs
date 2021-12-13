@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Proyectile : MonoBehaviour
 {
-    private float speed = 20f;
+    private float speed = 28f;
     private float destroyTime = 5f;
 
     void Start()
@@ -27,7 +27,7 @@ public class Proyectile : MonoBehaviour
         {
             Destroy(otherCollider.gameObject);
             Destroy(gameObject);
-            //Insertar explosion
+            
         }
     }
 }
