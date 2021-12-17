@@ -17,7 +17,7 @@ public class Rotate_Object : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!playerControllerScript.gameOver)
+        if (!playerControllerScript.gameOver && !playerControllerScript.win)
         {
             //Las Aspas giran constantemente si no ha terminado la partida.
             if (gameObject.CompareTag("Aspas"))

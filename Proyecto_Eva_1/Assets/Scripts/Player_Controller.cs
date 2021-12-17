@@ -10,22 +10,27 @@ public class Player_Controller : MonoBehaviour
     private float verticalInput;
     private float horizontalInput;
     public GameObject proyectilPrefab;
+    public ParticleSystem explosionParticles;
+    public ParticleSystem deathParticles;
     public bool gameOver;
+    public bool win;
     public TextMeshProUGUI CounterText;
     public TextMeshProUGUI winText;
+    public TextMeshProUGUI gameOverText;
     public int medals = 0;
     private float speed = 13f;
     private float turnSpeed = 30f;
-    private AudioSource audioPlayer;
+    public AudioSource audioPlayer;
     public AudioClip medalClip;
+    public AudioClip explosionClip;
     public AudioSource audioCamera;
+    private Vector3 offsetscope = new Vector3(0.01f, -0.1f, 0.3f);
 
 
 
 
-    
     void Start()
-    {   
+    {
         // Posición inicial.
         transform.position = new Vector3(0, 100, 0);
 
@@ -34,16 +39,19 @@ public class Player_Controller : MonoBehaviour
 
         //Oculto el texto de final de partida para mostrarlo solo si gano o pierdo.
         winText.gameObject.SetActive(false);
+        gameOverText.gameObject.SetActive(false);
 
         //Componentes del audio.
         audioPlayer = GetComponent<AudioSource>();
         audioCamera = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+
+
     }
 
-    
+
     void Update()
     {
-        if (!gameOver)
+        if (!gameOver && !win)
         {
             //Movimiento constante hacia delante.
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
@@ -69,14 +77,14 @@ public class Player_Controller : MonoBehaviour
 
             if (transform.position.z >= 350)
             { transform.position = new Vector3(transform.position.x, transform.position.y, 350); }
-            if (transform.position.z <= -100)
+            if (transform.position.z <= -75)
             { transform.position = new Vector3(transform.position.x, transform.position.y, -100); }
 
             //Tecla para instanciar el proyectil.
             if (Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl))
-            { 
+            {
                 //Instanciación del proyectil.
-                Instantiate(proyectilPrefab, transform.position, gameObject.transform.rotation);
+                Instantiate(proyectilPrefab, gameObject.transform.position + offsetscope, gameObject.transform.rotation);
             }
 
             //Texto del marcador.
@@ -85,19 +93,21 @@ public class Player_Controller : MonoBehaviour
             //Cuando recoges todas las medallas (10) termina el juego, sale en la pantalla el texto de victoria, termina la música y suena el clip de audio de victoria.
             if (medals == 10)
             {
-                winText.text = $"WIN";
                 winText.gameObject.SetActive(true);
                 audioCamera.Stop();
-                gameOver = true;
+                win = true;
             }
 
+            //Rotación eje Z.
+            Estabilizar(KeyCode.Q, Vector3.forward);
+            Estabilizar(KeyCode.E, Vector3.back);
         }
     }
 
     //Comprobar colisiones y sus comportamientos al respecto.
     public void OnCollisionEnter(Collision otherCollider)
     {
-        if (!gameOver) 
+        if (!gameOver && !win) 
         {
             //Si coges una medalla.
             if (otherCollider.gameObject.CompareTag("Recolectable"))
@@ -115,20 +125,30 @@ public class Player_Controller : MonoBehaviour
             //Si colisionas contra un obstaculo.
             else if (otherCollider.gameObject.CompareTag("Obstacle"))
             {
+                //Explosion.
+                Instantiate(deathParticles, transform.position, transform.rotation);
+                deathParticles.Play();
+
                 //Se destruyen tanto el obstaculo como el "Player".
                 Destroy(otherCollider.gameObject);
                 Destroy(gameObject);
-
-                //Sale el texto de "GAME OVER".
-                winText.text = $"GAME OVER";
-                winText.gameObject.SetActive(true);
                 
                 //Se para la música.
                 audioCamera.Stop();
+
+                //Texto gameOver.
+                gameOverText.gameObject.SetActive(true);
 
                 //Se termina el juego.
                 gameOver = true;
             }
         }
         }
+
+    //Giro sobre el eje Z para estabilizar el player.
+    public void Estabilizar(KeyCode key, Vector3 lado)
+    {
+        if (Input.GetKey(key))
+        {transform.Rotate( lado * Time.deltaTime * turnSpeed);}
+    }
 }

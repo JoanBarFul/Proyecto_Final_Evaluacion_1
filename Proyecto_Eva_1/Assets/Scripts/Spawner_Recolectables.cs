@@ -13,6 +13,8 @@ public class Spawner_Recolectables : MonoBehaviour
     public Player_Controller playerControllerScript;
     private float startSpawn = 2f;
     private float repeatSpawn = 5f;
+
+
    
     void Start()
     {
@@ -48,7 +50,7 @@ public class Spawner_Recolectables : MonoBehaviour
     //Instancia un obstaculo en una posición aleatoria.
     public void SpawnerObstacles()
     {
-        if (!playerControllerScript.gameOver)
+        if (!playerControllerScript.gameOver && !playerControllerScript.win)
         {
             randX = Random.Range(150, -151);
             randY = Random.Range(0, 181);
